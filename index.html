@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💀 WORM-GPT | CYBER CRIME INTERFACE</title>
+    <style>
+        /* RESET & BASE STYLE - CYBERPUNK HACKER THEME */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', 'Fira Code', 'Cascadia Code', monospace;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #000000;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 0, 0.03) 2px, rgba(0, 255, 0, 0.03) 4px),
+                radial-gradient(circle at 50% 50%, #0f0f0f 0%, #000000 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Glitch effect overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 50%, rgba(255, 0, 0, 0.02) 50%);
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+            z-index: 10;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 0, 0, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Matrix rain effect (simplified) */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.1;
+            background: repeating-linear-gradient(0deg, 
+                transparent, 
+                transparent 2px, 
+                rgba(0, 255, 0, 0.1) 3px, 
+                transparent 4px);
+            animation: matrix 20s linear infinite;
+        }
+
+        @keyframes matrix {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
+        }
+
+        /* Main chat container */
+        .worm-container {
+            width: 100%;
+            max-width: 900px;
+            height: 90vh;
+            background: rgba(10, 10, 10, 0.95);
+            border: 2px solid #00ff00;
+            box-shadow: 
+                0 0 30px #00ff00,
+                0 0 60px rgba(255, 0, 0, 0.3),
+                inset 0 0 20px rgba(0, 255, 0, 0.3);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Glitch border effect */
+        .worm-container::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            opacity: 0.3;
+            animation: borderGlitch 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes borderGlitch {
+            0%, 100% { clip-path: inset(0 0 98% 0); }
+            3% { clip-path: inset(0 98% 0 0); }
+            6% { clip-path: inset(98% 0 0 0); }
+            9% { clip-path: inset(0 0 0 98%); }
+        }
+
+        /* Header - Cybercrime style */
+        .worm-header {
+            background: #000000;
+            padding: 16px 20px;
+            border-bottom: 2px solid #00ff00;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .worm-header::after {
+            content: "SYSTEM://COMPROMISED";
+            position: absolute;
+            bottom: 2px;
+            right: 20px;
+            font-size: 10px;
+            color: #ff0000;
+            opacity: 0.5;
+            letter-spacing: 2px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .worm-icon {
+            font-size: 28px;
+            filter: drop-shadow(0 0 10px #00ff00);
+            animation: glitchText 2s infinite;
+        }
+
+        .worm-title h2 {
+            color: #00ff00;
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: glitchText 3s infinite;
+        }
+
+        .worm-title p {
+            color: #ff0000;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #0a0a0a;
+            padding: 6px 12px;
+            border: 1px solid #00ff00;
+            border-radius: 4px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        .status-text {
+            color: #00ff00;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        /* Messages area */
+        .worm-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: rgba(0, 0, 0, 0.8);
+            background-image: 
+                linear-gradient(rgba(0, 255, 0, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.02) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Custom scrollbar */
+        .worm-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .worm-messages::-webkit-scrollbar-track {
+            background: #000000;
+            border-left: 1px solid #00ff00;
+        }
+
+        .worm-messages::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        /* Message bubbles */
+        .message {
+            display: flex;
+            flex-direction: column;
+            max-width: 85%;
+            position: relative;
+            animation: messagePop 0.3s ease-out;
+        }
+
+        @keyframes messagePop {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            align-self: flex-end;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+        }
+
+        .message-header {
+            font-size: 0.7rem;
+            margin-bottom: 4px;
+            margin-left: 8px;
+            color: #00ff00;
+            opacity: 0.7;
+            letter-spacing: 1px;
+        }
+
+        .message.user .message-header {
+            color: #ff0000;
+            text-align: right;
+            margin-right: 8px;
+        }
+
+        .message-content {
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+            border: 1px solid;
+            position: relative;
+            background: #0a0a0a;
+        }
+
+        .message.user .message-content {
+            border-color: #ff0000;
+            color: #ff6666;
+            box-shadow: 
+                -5px 0 0 #ff0000,
+                0 0 10px rgba(255, 0, 0, 0.3);
+        }
+
+        .message.bot .message-content {
+            border-color: #00ff00;
+            color: #00ff00;
+            box-shadow: 
+                5px 0 0 #00ff00,
+                0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .message-content::before {
+            content: ">";
+            position: absolute;
+            left: -12px;
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .message.user .message-content::before {
+            content: "<";
+            left: auto;
+            right: -12px;
+            color: #ff0000;
+        }
+
+        .message-time {
+            font-size: 0.6rem;
+            color: #666;
+            margin-top: 4px;
+            margin-left: 8px;
+            margin-right: 8px;
+            font-family: monospace;
+        }
+
+        /* Input area */
+        .worm-input-area {
+            display: flex;
+            padding: 16px 20px;
+            border-top: 2px solid #00ff00;
+            background: #000000;
+            gap: 12px;
+            position: relative;
+        }
+
+        .input-prefix {
+            color: #00ff00;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .worm-input-area input {
+            flex: 1;
+            background: #0a0a0a;
+            border: 1px solid #00ff00;
+            border-radius: 0;
+            padding: 12px 16px;
+            color: #00ff00;
+            font-size: 0.95rem;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            transition: all 0.2s;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.1);
+        }
+
+        .worm-input-area input:focus {
+            border-color: #ff0000;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 255, 0, 0.2),
+                0 0 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .worm-input-area input::placeholder {
+            color: #00ff00;
+            opacity: 0.3;
+        }
+
+        .worm-input-area button {
+            background: #000000;
+            border: 2px solid #00ff00;
+            border-radius: 0;
+            padding: 0 30px;
+            color: #00ff00;
+            font-weight: 900;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .worm-input-area button:hover {
+            background: #00ff00;
+            color: #000000;
+            border-color: #ff0000;
+            box-shadow: 
+                0 0 20px #00ff00,
+                0 0 40px #ff0000;
+            transform: scale(1.02);
+        }
+
+        .worm-input-area button::before {
+            content: "EXECUTE";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background: #ff0000;
+            color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .worm-input-area button:hover::before {
+            opacity: 1;
+            animation: glitchBtn 0.2s infinite;
+        }
+
+        @keyframes glitchBtn {
+            0% { transform: translate(-48%, -52%) skew(5deg); }
+            100% { transform: translate(-52%, -48%) skew(-5deg); }
+        }
+
+        /* System warning */
+        .system-warning {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            padding: 8px 12px;
+            margin: 10px 20px;
+            color: #ff0000;
+            font-size: 0.75rem;
+            text-align: center;
+            animation: warningPulse 2s infinite;
+            letter-spacing: 1px;
+        }
+
+        @keyframes warningPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: #0a0a0a;
+            border: 1px solid #00ff00;
+            width: fit-content;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #00ff00;
+            border-radius: 0;
+            animation: typing 1s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Glitch text effect */
+        @keyframes glitchText {
+            0%, 100% { text-shadow: 2px 0 0 #ff0000, -2px 0 0 #00ff00; }
+            25% { text-shadow: -2px 0 0 #ff0000, 2px 0 0 #00ff00; }
+            50% { text-shadow: 3px 0 0 #ff0000, -3px 0 0 #00ff00; }
+            75% { text-shadow: -3px 0 0 #ff0000, 3px 0 0 #00ff00; }
+        }
+
+        .glitch {
+            animation: glitchText 0.8s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    
+    <div class="worm-container">
+        <div class="worm-header">
+            <div class="header-left">
+                <span class="worm-icon">💀</span>
+                <div class="worm-title">
+                    <h2>WORM-GPT v2.1</h2>
+                    <p>CYBER CRIME INTERFACE // ETHICAL HACKING MODE</p>
+                </div>
+            </div>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span class="status-text">SYSTEM://ACTIVE</span>
+            </div>
+        </div>
+
+        <!-- System warning banner -->
+        <div class="system-warning">
+            ⚡ UNAUTHORIZED ACCESS DETECTED // FOR EDUCATIONAL PURPOSES ONLY ⚡
+        </div>
+
+        <div class="worm-messages" id="wormMessages">
+            <!-- Welcome message -->
+            <div class="message bot">
+                <div class="message-header">root@worm-gpt:~#</div>
+                <div class="message-content">Access granted. I am your ethical hacking assistant. Remember: with great power comes great responsibility. All actions must be legal and authorized.</div>
+                <div class="message-time">SYSTEM // 2024-03-10 19:42:01</div>
+            </div>
+        </div>
+
+        <div class="worm-input-area">
+            <span class="input-prefix">>$></span>
+            <input type="text" id="wormInput" placeholder="enter_command:~$ exploit --help" autocomplete="off" onkeypress="if(event.key==='Enter') sendWormMessage()">
+            <button onclick="sendWormMessage()">EXECUTE</button>
+        </div>
+    </div>
+
+    <script>
+        // RAPIDAPI CONFIGURATION - GANTI DENGAN KREDENSIAL ANDA!
+        const RAPIDAPI_KEY = '73af687ee3msh2fb10d054c91470p1e6358jsn97d48596752a'; // <-- GANTI INI
+        const RAPIDAPI_HOST = 'chatgpt-42.p.rapidapi.com'; // <-- GANTI DENGAN HOST RAPIDAPI ANDA
+        const API_URL = 'https://chatgpt-42.p.rapidapi.com/chatgpt'; // <-- GANTI DENGAN URL ENDPOINT
+
+        const wormMessages = document.getElementById('wormMessages');
+        const wormInput = document.getElementById('wormInput');
+
+        // Command history (like terminal)
+        let commandHistory = [];
+        let historyIndex = -1;
+
+        // Simpan pesan untuk konteks percakapan
+        let conversationContext = [
+            {
+                role: "system",
+                content: `Anda adalah WORM-GPT, asisten AI spesialis ethical hacking dengan kepribadian seperti hacker legendaris. 
+                Gunakan gaya bicara yang teknis, misterius, dan kadang sarkastik seperti di film-film cyberpunk. 
+                Selingi dengan istilah-istilah hacking seperti "exploit", "payload", "backdoor", "root access", dll.
+                Namun TETAP berikan informasi yang AKURAT dan EDUKATIF tentang keamanan siber, penetration testing, dan ethical hacking.
+                Selalu ingatkan untuk melakukan segala sesuatu secara LEGAL dan dengan IZIN.
+                Gunakan analogi dunia hacker untuk menjelaskan konsep keamanan. 
+                Jawab dalam bahasa Indonesia yang dicampur dengan istilah teknis Inggris.`
+            }
+        ];
+
+        async function sendWormMessage() {
+            const command = wormInput.value.trim();
+            if (!command) return;
+
+            // Simpan ke history
+            commandHistory.push(command);
+            historyIndex = commandHistory.length;
+
+            // Tampilkan command user
+            appendWormMessage('user', command);
+            wormInput.value = '';
+
+            // Add user message to context
+            conversationContext.push({
+                role: "user",
+                content: command
+            });
+
+            // Tampilkan typing indicator
+            const typingId = showTypingIndicator();
+
+            try {
+                // Panggil API
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'X-RapidAPI-Key': RAPIDAPI_KEY,
+                        'X-RapidAPI-Host': RAPIDAPI_HOST,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        messages: conversationContext,
+                        temperature: 0.7,
+                        max_tokens: 500
+                    })
+                });
+
+                // Hapus typing indicator
+                document.getElementById(typingId)?.remove();
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // Extract response - sesuaikan dengan struktur API Anda
+                const botReply = data.choices?.[0]?.message?.content || 
+                                data.response || 
+                                data.text || 
+                                data.message || 
+                                "Command failed. System error.";
+
+                // Tambahkan ke context
+                conversationContext.push({
+                    role: "assistant",
+                    content: botReply
+                });
+
+                // Tampilkan response dengan efek hacker
+                appendWormMessage('bot', botReply);
+
+            } catch (error) {
+                console.error('API Error:', error);
+                document.getElementById(typingId)?.remove();
+                appendWormMessage('bot', '⚠️ SYSTEM FAILURE: Unable to connect to neural network. Check API credentials or try again later.');
+            }
+
+            // Batasi panjang context agar tidak terlalu panjang
+            if (conversationContext.length > 10) {
+                conversationContext = [
+                    conversationContext[0], // system prompt
+                    ...conversationContext.slice(-8) // 4 pertanyaan + 4 jawaban terakhir
+                ];
+            }
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot';
+            typingDiv.id = 'typing-' + Date.now();
+            
+            const header = document.createElement('div');
+            header.className = 'message-header';
+            header.textContent = 'worm-gpt@exploit:~#';
+            
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            
+            const indicator = document.createElement('div');
+            indicator.className = 'typing-indicator';
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('span');
+                dot.className = 'typing-dot';
+                indicator.appendChild(dot);
+            }
+            
+            content.appendChild(indicator);
+            typingDiv.appendChild(header);
+            typingDiv.appendChild(content);
+            
+            wormMessages.appendChild(typingDiv);
+            wormMessages.scrollTop = wormMessages.scrollHeight;
+            
+            return typingDiv.id;
+        }
+
+        function appendWormMessage(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            // Header dengan efek hacker
+            const header = document.createElement('div');
+            header.className = 'message-header';
+            
+            if (sender === 'user') {
+                header.textContent = `anonymous@exploit:~$ ${getRandomIp()}`;
+            } else {
+                header.textContent = `worm-gpt@root:~# ${generatePrompt()}`;
+            }
+            
+            // Content
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            content.textContent = text;
+            
+            // Time dengan format hacker
+            const time = document.createElement('div');
+            time.className = 'message-time';
+            time.textContent = `[${getCurrentTimestamp()}] [PID: ${Math.floor(Math.random() * 9999)}]`;
+            
+            messageDiv.appendChild(header);
+            messageDiv.appendChild(content);
+            messageDiv.appendChild(time);
+            
+            wormMessages.appendChild(messageDiv);
+            wormMessages.scrollTop = wormMessages.scrollHeight;
+            
+            // Efek glitch kecil setiap pesan baru
+            messageDiv.style.animation = 'glitchText 0.3s';
+            setTimeout(() => {
+                messageDiv.style.animation = '';
+            }, 300);
+        }
+
+        // Utility functions untuk efek hacker
+        function getRandomIp() {
+            return `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
+        }
+
+        function generatePrompt() {
+            const prompts = ['EXECUTING', 'PROCESSING', 'HACKING', 'EXPLOITING', 'PWNING', 'CRACKING'];
+            return prompts[Math.floor(Math.random() * prompts.length)];
+        }
+
+        function getCurrentTimestamp() {
+            const now = new Date();
+            return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+        }
+
+        // Terminal-like command history navigation
+        wormInput.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    wormInput.value = commandHistory[historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    wormInput.value = commandHistory[historyIndex];
+                } else {
+                    historyIndex = commandHistory.length;
+                    wormInput.value = '';
+                }
+            }
+        });
+
+        // Matrix effect tambahan
+        function createMatrixEffect() {
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            const matrix = document.querySelector('.matrix-bg');
+            
+            setInterval(() => {
+                if (Math.random() > 0.95) {
+                    matrix.style.opacity = '0.2';
+                } else {
+                    matrix.style.opacity = '0.1';
+                }
+            }, 500);
+        }
+
+        createMatrixEffect();
+
+        // Auto-focus input
+        wormInput.focus();
+    </script>
+</body>
+</html>
